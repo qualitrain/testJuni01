@@ -41,7 +41,7 @@ public class CalculadoraComisiones {
 	    }
 		
 		if(importeVenta <= 0)
-			return -2;
+			return -2;     //Importe negativo
 		if(importeVenta <= this.importeMinimo)
 			return 0;
 		if(tipoVenta == 'N') {
@@ -50,12 +50,12 @@ public class CalculadoraComisiones {
 		if(tipoVenta == 'X') {
 			return importeVenta * this.porcComisionExtraordinario / 100;
 		}
-		return -1;
+		return -1; // Tipo de venta inexistente
 	}
 
 	public double calcularComision(Venta vta) {
 		if(vta == null) {
-			return -3;
+			return -3; // Venta nula
 		}
 		return this.calcularComision(vta.getImporte(), vta.getTipo());
 	}
@@ -82,9 +82,13 @@ public class CalculadoraComisiones {
 		return comision;
 	}
 
-
 	public List<Operacion> getOperacionesDesdeHasta(Long folioInicio, Long folioFin) {
 		return this.gestorPersistencia.getOperacionesDesdeHasta(folioInicio, folioFin);
+	}
+
+	public Operacion getOperacion(long folio) {
+		return this.gestorPersistencia.getOperacion(folio);
+		
 	}
 	
 }

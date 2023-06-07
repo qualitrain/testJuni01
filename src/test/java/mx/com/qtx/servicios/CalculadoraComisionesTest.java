@@ -2,6 +2,7 @@ package mx.com.qtx.servicios;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,23 @@ public class CalculadoraComisionesTest {
 		double comisionEsperada = -1;
 		//validar
 		assertEquals(comisionEsperada, comision, "Manejo incorrecto de tipo de Vta inexistente");
+	}
+	@Test
+	public void testCalcularComision_vtaTipoInexistente_SeGuardaExcepcion() {
+		//Dados
+		CalculadoraComisiones calculadora = new CalculadoraComisiones();
+		double importe = calculadora.getImporteMinimo() + 1;
+		char tipoVenta = 'T';
+		String emisor = "testCalcularComision_vtaTipoInexistente_SeGuardaExcepcion";
+		
+		//entonces
+		Comision comision = calculadora.calcularComision(importe, tipoVenta, emisor);
+		double comisionEsperada = -1;
+		Operacion operacion = calculadora.getOperacion(comision.getFolio());
+		
+		//validar
+		assertNotNull(operacion.getExLanzada(), "No se registro Excepcion para una venta inexistente");
+		assertEquals(comisionEsperada, comision.getImporte(), "Manejo incorrecto de tipo de Vta inexistente");
 	}
 	@Test
 	public void testCalcularComision_ventaNormal_Nminus() {
