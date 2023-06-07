@@ -4,8 +4,11 @@ import java.util.List;
 
 import mx.com.qtx.entidades.Operacion;
 import mx.com.qtx.entidades.Venta;
+import mx.com.qtx.persistencia.GestorPersistenciaMemoria;
 
 public class CalculadoraComisiones {
+	
+	private IGestorPersistencia gestorPersistencia = new GestorPersistenciaMemoria();
 	//Solamente debe dar comision a ventas superiores al importe mínimo
 	private final double importeMinimo=1000;
 	
