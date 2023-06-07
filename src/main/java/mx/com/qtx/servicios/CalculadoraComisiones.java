@@ -1,5 +1,6 @@
 package mx.com.qtx.servicios;
 
+import java.util.Date;
 import java.util.List;
 
 import mx.com.qtx.entidades.Operacion;
@@ -60,14 +61,30 @@ public class CalculadoraComisiones {
 	}
 	
 
-	public Comision calcularComision(double d, char c, String emisor) {
-		return null;
+	public Comision calcularComision(double importe, char tipo, String emisor) {
+		double importeComision  = this.calcularComision(importe, tipo);
+		
+		long folio  = this.gestorPersistencia.getCantidadOperaciones() + 1;
+		
+		Operacion operacion = new Operacion();
+		operacion.setNombre(emisor);
+		operacion.setMonto(importe);
+		operacion.setFecha(new Date());
+		operacion.setComision(importeComision);
+		operacion.setFolio(folio);
+		operacion.setTipoVta(tipo);
+		operacion.setErronea(false);
+		operacion.setExLanzada(null);
+		operacion.setCodigoError(0);
+		
+		this.gestorPersistencia.insertarOperacion(operacion);
+		Comision comision = new Comision(folio, importeComision);
+		return comision;
 	}
 
 
 	public List<Operacion> getOperacionesDesdeHasta(Long folioInicio, Long folioFin) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.gestorPersistencia.getOperacionesDesdeHasta(folioInicio, folioFin);
 	}
 	
 }
